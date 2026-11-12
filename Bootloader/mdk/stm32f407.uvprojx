@@ -419,6 +419,16 @@
               <FileType>1</FileType>
               <FilePath>..\app\boot_install.c</FilePath>
             </File>
+            <File>
+              <FileName>boot_state.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_state.c</FilePath>
+            </File>
+            <File>
+              <FileName>boot_state_seed.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_state_seed.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

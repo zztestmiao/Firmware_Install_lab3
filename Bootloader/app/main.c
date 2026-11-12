@@ -10,11 +10,23 @@
 #include "boot_jump.h"
 #include "boot_stage.h"
 #include "boot_install.h"
+#include "boot_state.h"
+#include "boot_state_seed.h"
 
 int main(void)
 {
     boot_board_init();
     boot_board_show_startup();
+    /* 只读探测状态候选区，不改变当前安装或跳转决策。 */
+    boot_state_probe();
+    /* 仅首次迁移手动请求，默认不擦状态区。 */
+    if (!boot_state_seed_process())
+    {
+        while (1)
+        {
+            __NOP();
+        }
+    }
 
     /* 在本行设置断点，Watch手动写g_stage_request=1再运行。
      * 失败停留Bootloader，成功后继续处理独立安装请求，默认安装请求也为0。 */

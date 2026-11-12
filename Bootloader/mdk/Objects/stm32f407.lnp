@@ -6,6 +6,8 @@
 ".\objects\boot_crc.o"
 ".\objects\boot_stage.o"
 ".\objects\boot_install.o"
+".\objects\boot_state.o"
+".\objects\boot_state_seed.o"
 ".\objects\led.o"
 ".\objects\w25q.o"
 ".\objects\internal_flash.o"

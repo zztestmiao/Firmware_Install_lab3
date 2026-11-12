@@ -39,3 +39,5 @@
 .\objects\main.o: ..\app\boot_stage.h
 .\objects\main.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: ..\app\boot_install.h
+.\objects\main.o: ..\app\boot_state.h
+.\objects\main.o: ..\app\boot_state_seed.h
