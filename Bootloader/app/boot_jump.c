@@ -1,3 +1,10 @@
+/*
+ * 文件职责：检查入口并切换到App
+ * 调用关系：main在暂存及安装没有失败后调用。读取App前8字节，清理环境后跳Reset_Handler。
+ * 阅读重点：不是调用App的main。入口检查不等于完整固件CRC，当前未请求安装时仅做基本入口检查。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #include "boot_jump.h"
 #include "boot_layout.h"
 #include "stm32f4xx.h"
@@ -8,10 +15,12 @@
 /* ARMCC5 汇编函数：切换栈后直接跳转，避免再访问旧的函数栈。 */
 __asm void boot_enter_app(uint32_t stack_top, uint32_t reset_entry)
 {
+    /* ARM调用约定中r0/r1是两个参数，切换MSP后不再访问旧C函数栈。 */
     MSR MSP, r0
     MOVS r2, #0
     MSR CONTROL, r2
     ISB
+    /* 当前App启动需要正常中断环境，跳转前恢复可屏蔽中断响应。 */
     CPSIE i
     BX r1
 }

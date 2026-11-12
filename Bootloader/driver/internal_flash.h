@@ -1,3 +1,10 @@
+/*
+ * 文件职责：内部擦写接口及安全边界
+ * 调用关系：固定08010000～0801FFFF，输入长度不能超过64KiB。
+ * 阅读重点：源指针、长度及范围检查不会验证固件意义，源CRC和入口由上层负责。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #ifndef INTERNAL_FLASH_H
 #define INTERNAL_FLASH_H
 #include <stdint.h>

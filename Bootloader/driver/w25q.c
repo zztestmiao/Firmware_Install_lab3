@@ -1,3 +1,10 @@
+/*
+ * 文件职责：外部W25Q SPI驱动
+ * 调用关系：暂存模块调用ID/读取/擦除/跨页写接口，底层统一使用transfer_byte。
+ * 阅读重点：芯片1片选PE13、芯片2片选PE14，SPI1 PA5/6/7。驱动不依赖实验Watch变量；不可并发占用SPI。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #include "stm32f4xx.h"
 #include "w25q.h"
 
@@ -380,6 +387,7 @@ bool w25q_erase_sector(uint8_t chip, uint32_t address, uint32_t max_polls)
  * true只表示命令及等待完成，必须另行读回比较。
  * false可能已经部分写入或仍忙，不自动重试，也不保证WEL已清零。
  * max_polls为每阶段查询次数，不是毫秒；禁止在中断调用。 */
+/* 单页函数负责一次完整硬件编程事务，跨页接口每页都重新调用它。 */
 bool w25q_page_program(uint8_t chip, uint32_t address,
                        const uint8_t *buffer, uint32_t length,
                        uint32_t max_polls)
@@ -446,6 +454,7 @@ bool w25q_page_program(uint8_t chip, uint32_t address,
  * 不自动擦除。max_polls为每次单页阶段的最多查询次数，不是毫秒。
  * true表示全部分段完成，仍须读回比较；false时此前各页可能已写入，
  * 也可能仍忙，不回滚、不自动重试。禁止在中断中调用。 */
+/* 上层给出任意非零长度，本函数只负责拆页，不负责擦除或固件校验。 */
 bool w25q_write_data(uint8_t chip, uint32_t address,
                       const uint8_t *buffer, uint32_t length,
                       uint32_t max_polls)

@@ -1,3 +1,10 @@
+/*
+ * 文件职责：暂存及加载接口
+ * 调用关系：process由main调用，load由boot_install调用。
+ * 阅读重点：load输出的是静态RAM缓冲区内的载荷指针，下一次加载会覆盖，不是W25Q可直接执行地址。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #ifndef BOOT_STAGE_H
 #define BOOT_STAGE_H
 #include <stdbool.h>

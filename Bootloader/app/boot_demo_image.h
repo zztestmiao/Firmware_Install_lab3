@@ -1,3 +1,10 @@
+/*
+ * 文件职责：本地演示包只读数组
+ * 调用关系：内容来自firmware/LED_V2.ota，用作首次W25Q导入，不是安装的数据兜底来源。
+ * 阅读重点：静态const数组存于Bootloader只读区。不要逐字节阅读或手改；包更新后需要同步重新生成数组。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 /* 由LED_V2.ota生成，只读教学固件包。正式OTA以后替换此本地来源。 */
 #ifndef BOOT_DEMO_IMAGE_H
 #define BOOT_DEMO_IMAGE_H

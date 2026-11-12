@@ -1,3 +1,10 @@
+/*
+ * 文件职责：固件包字节格式
+ * 调用关系：包头32字节，后面才是原始BIN；整数按小端序解码。
+ * 阅读重点：包头不是App代码，安装时必须跳过。CRC只检测损坏，不认证来源。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #ifndef BOOT_PACKAGE_H
 #define BOOT_PACKAGE_H
 #include <stdint.h>

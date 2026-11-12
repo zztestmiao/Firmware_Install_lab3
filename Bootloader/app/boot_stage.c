@@ -1,3 +1,10 @@
+/*
+ * 文件职责：外部固件包暂存与验证
+ * 调用关系：process可手动将内嵌包写入W25Q；load只读W25Q并校验，供安装调用。
+ * 阅读重点：process会擦外部最后一个4KiB扇区，load不会擦。两者均不擦内部App。结果只在RAM，不是持久READY。
+ * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
+ */
+
 #include "boot_stage.h"
 #include "boot_crc.h"
 #include "boot_package.h"
@@ -25,6 +32,7 @@ static uint32_t stage_u32(const uint8_t *p)
 
 /* 当前验证完整教学包，长度必须与本地演示包一致。
  * 将来网络固件改为读取头部声明长度并分块CRC，不能直接复用固定长度。 */
+/* 验证包头和完整载荷，但不写任何Flash。成功更新的Watch信息不是持久升级标志。 */
 static bool stage_validate(const uint8_t *package, uint32_t size)
 {
     uint32_t length;
@@ -40,6 +48,7 @@ static bool stage_validate(const uint8_t *package, uint32_t size)
     {
         return false;
     }
+    /* 头CRC先通过，才使用长度；要求长度与实际读回包大小严格一致。 */
     length = stage_u32(package + 16u);
     if (length != size - BOOT_PACKAGE_HEADER_SIZE ||
         length > BOOT_APP_END - BOOT_APP_BASE ||
@@ -47,6 +56,7 @@ static bool stage_validate(const uint8_t *package, uint32_t size)
     {
         return false;
     }
+    /* 固件前两个32位字是初始栈顶与Reset_Handler地址，不是待写数据长度。 */
     stack_top = stage_u32(package + BOOT_PACKAGE_HEADER_SIZE);
     entry = stage_u32(package + BOOT_PACKAGE_HEADER_SIZE + 4u);
     if (stack_top <= 0x20000000u || stack_top > 0x20020000u ||
@@ -140,6 +150,7 @@ bool boot_stage_load(const uint8_t **image, uint32_t *length, uint32_t *crc)
     {
         goto finish;
     }
+    /* 二级指针把载荷首地址交给调用者，数据仍由本模块静态数组持有。 */
     *image = stage_readback + BOOT_PACKAGE_HEADER_SIZE;
     *length = stage_u32(stage_readback + 16u);
     *crc = stage_u32(stage_readback + 20u);
