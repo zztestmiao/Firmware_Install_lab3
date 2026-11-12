@@ -36,3 +36,5 @@
 .\objects\main.o: ..\firmware\driver\inc\stm32f4xx_fsmc.h
 .\objects\main.o: ..\app\boot_board.h
 .\objects\main.o: ..\app\boot_jump.h
+.\objects\main.o: ..\app\boot_stage.h
+.\objects\main.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdbool.h

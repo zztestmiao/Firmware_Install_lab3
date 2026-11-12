@@ -404,6 +404,16 @@
               <FileType>1</FileType>
               <FilePath>..\app\boot_jump.c</FilePath>
             </File>
+            <File>
+              <FileName>boot_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>boot_stage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_stage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -413,6 +423,11 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\driver\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>w25q.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\driver\w25q.c</FilePath>
             </File>
           </Files>
         </Group>
