@@ -1,8 +1,8 @@
 .\objects\boot_stage.o: ..\app\boot_stage.c
 .\objects\boot_stage.o: ..\app\boot_stage.h
 .\objects\boot_stage.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\boot_stage.o: ..\app\boot_crc.h
 .\objects\boot_stage.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\boot_stage.o: ..\app\boot_crc.h
 .\objects\boot_stage.o: ..\app\boot_package.h
 .\objects\boot_stage.o: ..\app\boot_layout.h
 .\objects\boot_stage.o: ..\app\boot_demo_image.h

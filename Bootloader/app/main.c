@@ -2,6 +2,7 @@
 #include "boot_board.h"
 #include "boot_jump.h"
 #include "boot_stage.h"
+#include "boot_install.h"
 
 int main(void)
 {
@@ -9,8 +10,16 @@ int main(void)
     boot_board_show_startup();
 
     /* 在本行设置断点，Watch手动写g_stage_request=1再运行。
-     * 失败停留Bootloader，成功后仍启动内部V1，不执行安装。 */
+     * 失败停留Bootloader，成功后继续处理独立安装请求，默认安装请求也为0。 */
     if (!boot_stage_process())
+    {
+        while (1)
+        {
+            __NOP();
+        }
+    }
+    /* 保持stage请求为0；在此断点手动触发安装。失败禁止跳入残缺App。 */
+    if (!boot_install_process())
     {
         while (1)
         {

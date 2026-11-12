@@ -414,6 +414,11 @@
               <FileType>1</FileType>
               <FilePath>..\app\boot_stage.c</FilePath>
             </File>
+            <File>
+              <FileName>boot_install.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_install.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -428,6 +433,11 @@
               <FileName>w25q.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\driver\w25q.c</FilePath>
+            </File>
+            <File>
+              <FileName>internal_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\driver\internal_flash.c</FilePath>
             </File>
           </Files>
         </Group>

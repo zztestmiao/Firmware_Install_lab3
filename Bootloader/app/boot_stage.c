@@ -120,3 +120,32 @@ finish:
     SPI_Cmd(SPI1, DISABLE);
     return success;
 }
+
+/* 安装只信任本次从W25Q重新读出的完整包，不能沿用先前RAM结果。 */
+bool boot_stage_load(const uint8_t **image, uint32_t *length, uint32_t *crc)
+{
+    uint32_t id;
+    bool success = false;
+    static const uint8_t sample[] = "123456789";
+    if (image == 0 || length == 0 || crc == 0 ||
+        boot_crc32(sample, 9u) != 0xCBF43926u)
+    {
+        return false;
+    }
+    w25q_init();
+    if (!w25q_read_jedec_id(1u, &id) || id != 0xEF4018u ||
+        !w25q_wait_ready(1u, 100000u) ||
+        !w25q_read_data(1u, 0xFFF000u, stage_readback, sizeof(stage_readback)) ||
+        !stage_validate(stage_readback, sizeof(stage_readback)))
+    {
+        goto finish;
+    }
+    *image = stage_readback + BOOT_PACKAGE_HEADER_SIZE;
+    *length = stage_u32(stage_readback + 16u);
+    *crc = stage_u32(stage_readback + 20u);
+    success = true;
+finish:
+    GPIO_SetBits(GPIOE, GPIO_Pin_13 | GPIO_Pin_14);
+    SPI_Cmd(SPI1, DISABLE);
+    return success;
+}
