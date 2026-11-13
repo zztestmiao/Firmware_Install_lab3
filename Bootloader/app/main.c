@@ -1,6 +1,6 @@
 /*
  * 文件职责：程序入口与执行顺序
- * 调用关系：先初始化及灯光提示，再处理可选暂存、可选安装，最后跳转App。两个请求默认0。
+ * 调用关系：先初始化和探测，再首次迁移/可选暂存，最后状态驱动安装与校验、跳转App。
  * 阅读重点：只组织顺序，不实现Flash细节。暂存/安装失败停留本程序，不能继续启动可能无效的App。
  * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
  */
@@ -9,7 +9,7 @@
 #include "boot_board.h"
 #include "boot_jump.h"
 #include "boot_stage.h"
-#include "boot_install.h"
+#include "boot_control.h"
 #include "boot_state.h"
 #include "boot_state_seed.h"
 
@@ -37,8 +37,8 @@ int main(void)
             __NOP();
         }
     }
-    /* 保持stage请求为0；在此断点手动触发安装。失败禁止跳入残缺App。 */
-    if (!boot_install_process())
+    /* 状态控制入口：手动升级使用g_upgrade_request；READY/INSTALLING无需请求自动处理。 */
+    if (!boot_control_process())
     {
         while (1)
         {

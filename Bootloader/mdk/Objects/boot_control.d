@@ -1,0 +1,9 @@
+.\objects\boot_control.o: ..\app\boot_control.c
+.\objects\boot_control.o: ..\app\boot_control.h
+.\objects\boot_control.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\boot_control.o: ..\app\boot_state.h
+.\objects\boot_control.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\boot_control.o: ..\app\boot_stage.h
+.\objects\boot_control.o: ..\app\boot_install.h
+.\objects\boot_control.o: ..\app\boot_crc.h
+.\objects\boot_control.o: ..\app\boot_layout.h

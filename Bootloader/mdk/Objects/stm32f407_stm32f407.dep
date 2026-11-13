@@ -1,6 +1,6 @@
 Dependencies for Project 'stm32f407', Target 'stm32f407': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (..\app\main.c)(0x6AF5C150)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\app\main.c)(0x6AF6C0AC)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\firmware\cmsis\device\stm32f4xx.h)(0x6A8ABAAB)
 I (..\firmware\cmsis\core\core_cm4.h)(0x61F12857)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)
@@ -39,7 +39,7 @@ I (..\app\boot_board.h)(0x6AF59EEF)
 I (..\app\boot_jump.h)(0x6AF59EEF)
 I (..\app\boot_stage.h)(0x6AF59EEF)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
-I (..\app\boot_install.h)(0x6AF59EEF)
+I (..\app\boot_control.h)(0x6AF6C0AC)
 I (..\app\boot_state.h)(0x6AF5C150)
 I (..\app\boot_state_seed.h)(0x6AF5C150)
 F (..\app\board.c)(0x6A8D93B3)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\board.o --omf_browse .\objects\board.crf --depend .\objects\board.d)
@@ -203,14 +203,23 @@ I (..\firmware\driver\inc\stm32f4xx_can.h)(0x61F25A2E)
 I (..\firmware\driver\inc\stm32f4xx_dac.h)(0x61F25A30)
 I (..\firmware\driver\inc\stm32f4xx_dcmi.h)(0x61F25A31)
 I (..\firmware\driver\inc\stm32f4xx_fsmc.h)(0x61F25A36)
-F (..\app\boot_install.c)(0x6AF59EEF)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_install.o --omf_browse .\objects\boot_install.crf --depend .\objects\boot_install.d)
-I (..\app\boot_install.h)(0x6AF59EEF)
+F (..\app\boot_install.c)(0x6AF6C0AC)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_install.o --omf_browse .\objects\boot_install.crf --depend .\objects\boot_install.d)
+I (..\app\boot_install.h)(0x6AF6C0AC)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
-I (..\app\boot_stage.h)(0x6AF59EEF)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\app\boot_stage.h)(0x6AF59EEF)
 I (..\app\boot_crc.h)(0x6AF59EEF)
 I (..\app\boot_layout.h)(0x6AF59EEF)
 I (..\driver\internal_flash.h)(0x6AF59EEF)
+F (..\app\boot_control.c)(0x6AF6C0AC)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_control.o --omf_browse .\objects\boot_control.crf --depend .\objects\boot_control.d)
+I (..\app\boot_control.h)(0x6AF6C0AC)
+I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
+I (..\app\boot_state.h)(0x6AF5C150)
+I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (..\app\boot_stage.h)(0x6AF59EEF)
+I (..\app\boot_install.h)(0x6AF6C0AC)
+I (..\app\boot_crc.h)(0x6AF59EEF)
+I (..\app\boot_layout.h)(0x6AF59EEF)
 F (..\app\boot_state.c)(0x6AF5C150)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_state.o --omf_browse .\objects\boot_state.crf --depend .\objects\boot_state.d)
 I (..\app\boot_state.h)(0x6AF5C150)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)

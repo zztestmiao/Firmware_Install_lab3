@@ -420,6 +420,11 @@
               <FilePath>..\app\boot_install.c</FilePath>
             </File>
             <File>
+              <FileName>boot_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\boot_control.c</FilePath>
+            </File>
+            <File>
               <FileName>boot_state.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\boot_state.c</FilePath>

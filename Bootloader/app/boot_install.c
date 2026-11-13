@@ -1,6 +1,6 @@
 /*
  * 文件职责：安装流程组织
- * 调用关系：main在跳转前调用：重新加载校验外部包，调用内部驱动，再计算内部CRC。
+ * 调用关系：boot_control在INSTALLING提交后调用verified执行层，再计算内部CRC。
  * 阅读重点：request=1会覆盖旧App；不清除W25Q副本。默认0不安装，尚无持久INSTALLING或自动掉电恢复。
  * 教学阶段：实验三本地安装，尚未完成网络OTA及自动安装中断恢复。
  */
@@ -44,10 +44,23 @@ bool boot_install_process(void)
         g_install_result = 2u;
         return false;
     }
+    return boot_install_verified(image, length, crc);
+}
+
+/* 供状态机调用的执行层，不提交状态；调用者必须先持久化INSTALLING。
+ * 源必须来自完整验证包，擦前仍再验RAM源CRC，避免传错指针和校验值。 */
+bool boot_install_verified(const uint8_t *image, uint32_t length, uint32_t crc)
+{
+    g_install_result = 6u;
     /* 源包虽然允许192KiB App，本版驱动仅支持S4的64KiB，擦除前再收紧范围。 */
-    if (length == 0u || length > IFLASH_DEMO_END - IFLASH_DEMO_START)
+    if (image == 0 || length == 0u || length > IFLASH_DEMO_END - IFLASH_DEMO_START)
     {
         g_install_result = 3u;
+        return false;
+    }
+    if (boot_crc32(image, length) != crc)
+    {
+        g_install_result = 2u;
         return false;
     }
     g_install_bytes = length;
