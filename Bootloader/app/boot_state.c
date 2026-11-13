@@ -15,6 +15,17 @@ volatile uint32_t g_state_value;
 volatile uint32_t g_state_sequence;
 volatile uint32_t g_state_slot;
 
+/* 教学状态提交中断钩子，默认0，正式版本需移除。
+ * hold=1时在新槽正文/CRC已写完、提交字尚为FF时等待。
+ * phase：0未写/1准备写/2正文已写未提交/3已提交/4失败。
+ * 写入槽/序号是正在准备的新记录，不等于当前有效记录。
+ * 等待时Flash已锁且硬件不忙，允许受控CPU复位。 */
+volatile uint32_t g_state_hold_before_commit;
+volatile uint32_t g_state_write_phase;
+volatile uint32_t g_state_write_slot;
+volatile uint32_t g_state_write_sequence;
+volatile uint32_t g_state_write_commit_word;
+
 static bool state_valid(const uint32_t *words)
 {
     return words[0] == STATE_MAGIC && words[1] == 1u &&
@@ -136,6 +147,9 @@ bool boot_state_commit(const boot_state_info *info, bool first_init)
         return false;
     address = (slot == 0u) ? 0x08008000u : 0x0800C000u;
     sector = (slot == 0u) ? FLASH_Sector_2 : FLASH_Sector_3;
+    g_state_write_slot = slot;
+    g_state_write_sequence = sequence;
+    g_state_write_phase = 1u;
     mask = __get_PRIMASK();
     __disable_irq();
     cache = FLASH->ACR;
@@ -153,12 +167,25 @@ bool boot_state_commit(const boot_state_info *info, bool first_init)
             *(volatile uint32_t *)(address + i * 4u) != words[i])
             goto finish;
     }
+    g_state_write_commit_word = *(volatile uint32_t *)(address + 44u);
+    g_state_write_phase = 2u;
+    FLASH_Lock();
+    while (g_state_hold_before_commit != 0u)
+    {
+        /* 新记录未提交，旧槽不变；此时复位后必须忽略新槽。 */
+        __NOP();
+    }
+    FLASH_Unlock();
     /* 最后一个独立字表示记录可使用，中途断电的未提交记录会被忽略。 */
     if (FLASH_ProgramWord(address + 44u, STATE_COMMIT) != FLASH_COMPLETE ||
         *(volatile uint32_t *)(address + 44u) != STATE_COMMIT)
         goto finish;
     success = true;
+    g_state_write_commit_word = STATE_COMMIT;
+    g_state_write_phase = 3u;
 finish:
+    if (!success)
+        g_state_write_phase = 4u;
     FLASH_Lock();
     FLASH_InstructionCacheReset();
     FLASH_DataCacheReset();

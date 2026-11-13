@@ -8,6 +8,15 @@
 #include "internal_flash.h"
 #include "stm32f4xx.h"
 
+/* 仅教学故障注入，默认0不暂停，正式版本需移除测试钩子。
+ * 在调用安装前由调试器设置hold=1。phase=2表示S4擦除已结束，
+ * 尚未写入任何App字；此时可做受控复位，不是在擦除硬件忙时复位。
+ * phase：0未执行/1准备擦除/2已擦未写/3写入结束/4失败。
+ * erased_word为擦除后入口首字快照，不是实时状态。 */
+volatile uint32_t g_iflash_hold_after_erase;
+volatile uint32_t g_iflash_phase;
+volatile uint32_t g_iflash_erased_word;
+
 bool internal_flash_install_s4(const uint8_t *image, uint32_t length)
 {
     uint32_t source = (uint32_t)image;
@@ -37,10 +46,23 @@ bool internal_flash_install_s4(const uint8_t *image, uint32_t length)
                     FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
     /* F407VE同Bank操作时取指可能等待硬件，调用位置必须在Bootloader。
      * 标准库内部等待不带时间期限，本轮不宣称超时或看门狗恢复。 */
+    g_iflash_phase = 1u;
     if (FLASH_EraseSector(FLASH_Sector_4, VoltageRange_3) != FLASH_COMPLETE)
     {
         goto finish;
     }
+    /* 擦除调用已成功返回，再取入口首字证据。缓存已关闭。 */
+    g_iflash_erased_word = *(volatile uint32_t *)IFLASH_DEMO_START;
+    g_iflash_phase = 2u;
+    /* 等待期间锁住Flash，避免意外编程；此时硬件不忙。
+     * 复位后C启动会清零hold，状态机读INSTALLING后重装。
+     * 此等待保持中断屏蔽，用户须用CPU复位而不是依赖应用中断。 */
+    FLASH_Lock();
+    while (g_iflash_hold_after_erase != 0u)
+    {
+        __NOP();
+    }
+    FLASH_Unlock();
     /* 每轮构造一个小端32位字并写到目的地址，offset按4字节递增。 */
     for (offset = 0u; offset < length; offset += 4u)
     {
@@ -59,8 +81,13 @@ bool internal_flash_install_s4(const uint8_t *image, uint32_t length)
         }
     }
     success = true;
+    g_iflash_phase = 3u;
 /* goto统一收尾：只在解锁后的路径使用，所有成功/失败都重新上锁。 */
 finish:
+    if (!success)
+    {
+        g_iflash_phase = 4u;
+    }
     FLASH_Lock();
     /* 清除旧App可能残留的Flash指令/数据缓存，再恢复原来的使能状态。 */
     FLASH_InstructionCacheReset();

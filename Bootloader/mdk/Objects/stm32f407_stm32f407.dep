@@ -220,7 +220,7 @@ I (..\app\boot_stage.h)(0x6AF59EEF)
 I (..\app\boot_install.h)(0x6AF6C0AC)
 I (..\app\boot_crc.h)(0x6AF59EEF)
 I (..\app\boot_layout.h)(0x6AF59EEF)
-F (..\app\boot_state.c)(0x6AF5C150)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_state.o --omf_browse .\objects\boot_state.crf --depend .\objects\boot_state.d)
+F (..\app\boot_state.c)(0x6AF6CB07)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\boot_state.o --omf_browse .\objects\boot_state.crf --depend .\objects\boot_state.d)
 I (..\app\boot_state.h)(0x6AF5C150)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
@@ -341,7 +341,7 @@ I (..\firmware\driver\inc\stm32f4xx_dcmi.h)(0x61F25A31)
 I (..\firmware\driver\inc\stm32f4xx_fsmc.h)(0x61F25A36)
 I (..\driver\w25q.h)(0x6AF59EEF)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
-F (..\driver\internal_flash.c)(0x6AF59EEF)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\internal_flash.o --omf_browse .\objects\internal_flash.crf --depend .\objects\internal_flash.d)
+F (..\driver\internal_flash.c)(0x6AF6C70A)(--c99 --gnu -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\firmware\cmsis\core -I ..\firmware\cmsis\device -I ..\firmware\driver\inc -I ..\driver -I ..\app-D__UVISION_VERSION="537" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSE_VALUE="8000000"-o .\objects\internal_flash.o --omf_browse .\objects\internal_flash.crf --depend .\objects\internal_flash.d)
 I (..\driver\internal_flash.h)(0x6AF59EEF)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (D:\Keil5\Core\ARM\ARMCC\include\stdbool.h)(0x6025237C)
